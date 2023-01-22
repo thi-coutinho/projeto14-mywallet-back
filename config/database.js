@@ -10,7 +10,7 @@ try {
   await mongoClient.connect()
   db = mongoClient.db()
 } catch (error) {
-  console.log('Deu errro no server')
+  console.log('Something wrong with server')
 }
 
 export default db
