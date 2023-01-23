@@ -12,4 +12,4 @@ app.use(express.json())
 
 app.use([authRouter,entryRouter])
 
-app.listen(PORT,()=>console.log(`Server running at port ${PORT}}`))
+app.listen(PORT,()=>console.log(`Server running at port ${PORT}`))
