@@ -28,6 +28,7 @@ export async function signIn(req, res) {
         if (!passwordCheck) return res.status(400).send("Incorrect email and/or password")
         
         const token = uuidV4()
+        console.log(userCheck._id)
         await db.collection("sessions").insertOne({ userId: userCheck._id, token })
         res.send(token)
 
