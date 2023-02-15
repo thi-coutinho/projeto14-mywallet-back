@@ -1,5 +1,6 @@
 import db from "../config/database.js"
 import dayjs from "dayjs"
+import { ObjectId } from "mongodb"
 
 export async function saveEntry(req, res) {
     const {value,description} = req.body
@@ -20,6 +21,20 @@ export async function getEntries(req,res){
     try {
         const entries = await db.collection("entries").find({userId}).toArray()
         res.send(entries)
+    } catch (error) {
+        res.status(500).send(error.message)        
+    }
+}
+
+export async function delEntry(req,res){
+    const {userId} = res.locals.session
+    const entryId = req.params.id
+    console.log(entryId)
+    try {
+        const entries = await db.collection("entries").deleteOne({_id: ObjectId(entryId),userId})
+        console.log(entries)
+        if (entries.deletedCount>0) res.send("Deleted")
+        else res.sendStatus(404)
     } catch (error) {
         res.status(500).send(error.message)        
     }
