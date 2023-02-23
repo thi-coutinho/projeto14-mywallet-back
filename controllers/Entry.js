@@ -28,14 +28,25 @@ export async function getEntries(req,res){
 
 export async function delEntry(req,res){
     const {userId} = res.locals.session
-    const entryId = req.params.id
-    console.log(entryId)
+    const {entryId} = req.params
     try {
         const entries = await db.collection("entries").deleteOne({_id: ObjectId(entryId),userId})
-        console.log(entries)
         if (entries.deletedCount>0) res.send("Deleted")
         else res.sendStatus(404)
     } catch (error) {
         res.status(500).send(error.message)        
+    }
+}
+
+export async function updateEntry(req,res) {
+    const {userId} = res.locals.session
+    const {entryId} = req.params
+    const {value,description,entryType,date} = req.body
+    try {
+        await db.collection("entries").updateOne({_id: ObjectId(entryId),userId},{$set:{value:Number(value),description,entryType,date}})
+        res.send("Updated")
+    } catch (error) {
+        res.status(500).send(error.message)        
+        
     }
 }

@@ -1,5 +1,5 @@
 export function setEntryType(entryType) {
-    return (req, res, next) => {
+    return (_, res, next) => {
         res.locals.entryType = entryType
         next()
     }
