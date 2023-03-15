@@ -3,13 +3,13 @@ import dayjs from "dayjs"
 import { ObjectId } from "mongodb"
 
 export async function saveEntry(req, res) {
-    const {value,description} = req.body
+    const {value,description, date} = req.body
     const {userId} = res.locals.session
     const entryType = res.locals.entryType
     const valueNumber = Number(value)
-    const date = dayjs(Date.now()).format("DD/MM/YYYY")
+    const insertDate = date || dayjs(Date.now()).format("DD/MM/YYYY")
     try {
-        const entry = await db.collection("entries").insertOne({userId,value:valueNumber,description,date,entryType})
+        const entry = await db.collection("entries").insertOne({userId,value:valueNumber,description,date:insertDate,entryType})
         res.status(201).send("registered entry")
     } catch (error) {
         res.status(500).send(error.message)
